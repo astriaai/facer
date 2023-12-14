@@ -29,11 +29,11 @@ def face_detector(name: str, device: torch.device, **kwargs) -> FaceDetector:
         raise RuntimeError(f'Unknown detector type: {detector_type}')
 
 
-def face_parser(name: str, device: torch.device, **kwargs) -> FaceParser:
+def face_parser(name: str, device: torch.device, ckpt_path: str = None, **kwargs) -> FaceParser:
     parser_type, conf_name = _split_name(name)
     if parser_type == 'farl':
         from .face_parsing import FaRLFaceParser
-        return FaRLFaceParser(conf_name, device=device, **kwargs).to(device)
+        return FaRLFaceParser(conf_name, model_path=ckpt_path, device=device, **kwargs).to(device)
     else:
         raise RuntimeError(f'Unknown parser type: {parser_type}')
 
